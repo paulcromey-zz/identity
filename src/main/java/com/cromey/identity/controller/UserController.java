@@ -1,5 +1,6 @@
 package com.cromey.identity.controller;
 
+import java.util.Objects;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -35,7 +36,15 @@ public class UserController {
 	
 	@GetMapping(value="{id}")
 	public ResponseEntity<User> get(@PathVariable String id){
-		return ResponseEntity.ok().body(userService.read(UUID.fromString(id)));
+		logger.info("read");
+		User user = userService.read(UUID.fromString(id));
+		if(Objects.nonNull(user)) {
+			return ResponseEntity.ok().body(user);
+		} else {
+			logger.info("not found");
+			return ResponseEntity.notFound().build();
+		}
+			
 	}
 	
 	@PostMapping
