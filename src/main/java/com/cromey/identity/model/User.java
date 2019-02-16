@@ -14,6 +14,7 @@ import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @SuppressWarnings("serial")
 @EntityListeners(AuditingEntityListener.class)
@@ -21,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
         value = {"createdAt", "updatedAt"},
         allowGetters = true
 )
+@JsonPropertyOrder({ "id", "userName", "password", "email", "dateOfBirth" })
 @Entity
 @Table(name = "users")
 public class User implements Serializable {

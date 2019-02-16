@@ -35,13 +35,12 @@ public class UserController {
 	}
 	
 	@GetMapping(value="{id}")
-	public ResponseEntity<User> get(@PathVariable String id){
-		logger.info("read");
-		User user = userService.read(UUID.fromString(id));
+	public ResponseEntity<User> get(@PathVariable UUID id){
+		logger.info(HttpStatus.FOUND.name());
+		User user = userService.read(id);
 		if(Objects.nonNull(user)) {
 			return ResponseEntity.ok().body(user);
 		} else {
-			logger.info("not found");
 			return ResponseEntity.notFound().build();
 		}
 			
