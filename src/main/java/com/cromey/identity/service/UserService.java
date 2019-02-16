@@ -1,5 +1,7 @@
 package com.cromey.identity.service;
 
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,9 +26,14 @@ public class UserService {
 	}
 
 	public User read(UUID id) {
-		return userRepository.getOne(id);
+		Optional<User> user = userRepository.findById(id);
+		if(user.isPresent())
+			return user.get();
+		return null;
 	}
-
 	
-
+	public List<User> readAll() {
+		return userRepository.findAll();
+	}
+	
 }
