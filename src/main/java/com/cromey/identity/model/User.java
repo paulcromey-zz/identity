@@ -1,86 +1,83 @@
 package com.cromey.identity.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 @SuppressWarnings("serial")
 @EntityListeners(AuditingEntityListener.class)
-@JsonIgnoreProperties(
-        value = {"createdAt", "updatedAt"},
-        allowGetters = true
-)
+@JsonIgnoreProperties(value = { "createdAt", "updatedAt" }, allowGetters = true)
 @JsonPropertyOrder({ "id", "userName", "password", "email", "dateOfBirth" })
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
-	
-	@Column(name = "date_of_birth")
-    private LocalDate dateOfBirth;
 
-    @Column(name = "email")
-    private String email;
+  @Column(name = "date_of_birth")
+  private LocalDate dateOfBirth;
 
-    @Id
-    @Type(type="pg-uuid")
-    private UUID id;
-    
-    @Column(name = "password")
-    private String password;
-    
-    @Column(name = "username")
-    private String userName;
+  @Column(name = "email")
+  private String email;
 
-	public LocalDate getDateOfBirth() {
-		return dateOfBirth;
-	}
+  @Id
+  @Type(type = "pg-uuid")
+  private UUID id;
 
-	public String getEmail() {
-		return email;
-	}
+  @Column(name = "password")
+  private String password;
 
-	public UUID getId() {
-		return id;
-	}
+  @Column(name = "username")
+  private String userName;
 
-	public String getPassword() {
-		return password;
-	}
+  public LocalDate getDateOfBirth() {
+    return dateOfBirth;
+  }
 
-	public String getUserName() {
-		return userName;
-	}
+  public String getEmail() {
+    return email;
+  }
 
-	public void setDateOfBirth(LocalDate dateOfBirth) {
-		this.dateOfBirth = dateOfBirth;
-	}
+  public UUID getId() {
+    return id;
+  }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public void setId(UUID id) {
-		this.id = id;
-	}
+  public String getUserName() {
+    return userName;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public void setDateOfBirth(LocalDate dateOfBirth) {
+    this.dateOfBirth = dateOfBirth;
+  }
 
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}    
-    
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public void setId(UUID id) {
+    this.id = id;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
+
 }

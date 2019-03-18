@@ -11,17 +11,26 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class BeforeLogger {
-	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Pointcut("within(com.cromey.identity..*)")
-    public void methods() {};
-	
-	@Before("methods()")
-	public void before(JoinPoint joinPoint) throws Throwable {
-		
-		logger.debug(String.format("Entering class %s method %s", joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName()));
-		
-	}
-	
+
+  private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+  @Pointcut("within(com.cromey.identity..*)")
+  public void methods() {
+    // deliberately empty
+  }
+
+  /**
+   * executes before class methods.
+   * 
+   * @param joinPoint the class
+   */
+  @Before("methods()")
+  public void before(JoinPoint joinPoint) {
+
+    String message = "Entering class " + joinPoint.getTarget().getClass().getSimpleName() 
+        + " method " + joinPoint.getSignature().getName();
+    logger.debug(message);
+
+  }
+
 }
