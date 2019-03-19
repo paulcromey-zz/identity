@@ -13,6 +13,10 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class UserLogger {
 
+  private static final String BLANK_SPACE = " ";
+  private static final String EXITING = "Exiting ";
+  private static final String ENTERING = "Entering ";
+  
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
   @Pointcut("within(com.cromey.identity..*)")
@@ -28,13 +32,7 @@ public class UserLogger {
   @Before("methods()")
   public void before(JoinPoint joinPoint) {
 
-    StringBuilder sb = new StringBuilder().append("Entering class ")
-        .append(joinPoint.getTarget().getClass().getSimpleName()).append(" method ")
-        .append(joinPoint.getSignature().getName());
-    
-    String message = sb.toString();
-    
-    logger.debug(message);
+    log(ENTERING, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName());
 
   }
 
@@ -45,15 +43,23 @@ public class UserLogger {
    */
   @After("methods()")
   public void after(JoinPoint joinPoint) {
+    
+    log(EXITING, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName());
 
-    StringBuilder sb = new StringBuilder().append("Exiting class ")
-        .append(joinPoint.getTarget().getClass().getSimpleName()).append(" method ")
-        .append(joinPoint.getSignature().getName());
+  }
+  
+  private void log(String state, String className, String methodName) {
+    
+    StringBuilder sb = new StringBuilder()
+        .append(state)
+        .append(className)
+        .append(BLANK_SPACE)
+        .append(methodName);
     
     String message = sb.toString();
     
     logger.debug(message);
-
+    
   }
 
 }
