@@ -16,11 +16,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Aspect
 public class UserLogger {
-
-  private static final String EXECUTION = "Execution ";
-  private static final String BLANK_SPACE = " ";
-  private static final String EXITING = "Exiting ";
-  private static final String ENTERING = "Entering ";
   
   private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -32,44 +27,49 @@ public class UserLogger {
   /**
    * executes before class methods.
    * 
-   * @param joinPoint the class
+   * @param jp the join point
    */
   @Before("methods()")
-  public void before(JoinPoint joinPoint) {
+  public void before(JoinPoint jp) {
 
-    log(ENTERING, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName());
+    log("Entering ", jp);
 
   }
   
+  /**
+   * executes around class methods.
+   * 
+   * @param pjp the proceeding join point
+   */
   @Around("methods()")
   public Object measureMethodExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
-      long start = System.nanoTime();
-      Object retval = pjp.proceed();
-      long end = System.nanoTime();
-      long duration = TimeUnit.NANOSECONDS.toMillis(end - start);
-      log(EXECUTION, duration);
-      return retval;
+    long start = System.nanoTime();
+    Object retval = pjp.proceed();
+    long end = System.nanoTime();
+    long duration = TimeUnit.NANOSECONDS.toMillis(end - start);
+    log("Execution ", duration);
+    return retval;
   }
 
   /**
    * executes after class methods.
    * 
-   * @param joinPoint the class
+   * @param jp the join point
    */
   @After("methods()")
-  public void after(JoinPoint joinPoint) {
+  public void after(JoinPoint jp) {
     
-    log(EXITING, joinPoint.getTarget().getClass().getSimpleName(), joinPoint.getSignature().getName());
+    log("Exiting ", jp);
 
   }
   
-  private void log(String state, String className, String methodName) {
+  private void log(String state, JoinPoint jp) {
     
     StringBuilder sb = new StringBuilder()
         .append(state)
-        .append(className)
-        .append(BLANK_SPACE)
-        .append(methodName);
+        .append(jp.getTarget().getClass().getSimpleName())
+        .append(" ")
+        .append(jp.getSignature().getName());
     
     String message = sb.toString();
     
