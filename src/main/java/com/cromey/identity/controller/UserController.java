@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,7 +73,7 @@ public class UserController {
 
   @PostMapping
   @ResponseStatus(HttpStatus.CREATED)
-  public ResponseEntity<User> post(@RequestBody User user) {
+  public ResponseEntity<User> post(@Valid @RequestBody User user) {
     return ResponseEntity.status(HttpStatus.CREATED).contentType(MediaType.APPLICATION_JSON)
         .body(userService.create(user));
   }

@@ -1,8 +1,5 @@
 package com.cromey.identity.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -12,9 +9,15 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @SuppressWarnings("serial")
 @EntityListeners(AuditingEntityListener.class)
@@ -28,6 +31,8 @@ public class User implements Serializable {
   private LocalDate dateOfBirth;
 
   @Column(name = "email")
+  @NotBlank(message = "Email is mandatory")
+  @Email(message = "Email should be valid")
   private String email;
 
   @Id
@@ -35,9 +40,12 @@ public class User implements Serializable {
   private UUID id;
 
   @Column(name = "password")
+  @NotBlank(message = "Password is mandatory")
+  @Size(min = 8, max = 255, message = "Password must be at least 8 characters")
   private String password;
 
   @Column(name = "username")
+  @NotBlank(message = "UserName is mandatory")
   private String userName;
 
   public LocalDate getDateOfBirth() {
