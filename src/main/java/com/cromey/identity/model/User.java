@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.annotations.Type;
@@ -28,6 +29,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class User implements Serializable {
 
   @Column(name = "date_of_birth")
+  @Past(message = "Date of Birth must be in the past")
   private LocalDate dateOfBirth;
 
   @Column(name = "email")
